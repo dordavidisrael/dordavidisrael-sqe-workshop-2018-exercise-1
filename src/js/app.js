@@ -1,10 +1,14 @@
 import $ from 'jquery';
-import {parseCode} from './code-analyzer';
+import {parseCode,bigfunc} from './code-analyzer';
+
+
+
 
 $(document).ready(function () {
     $('#codeSubmissionButton').click(() => {
         let codeToParse = $('#codePlaceholder').val();
         let parsedCode = parseCode(codeToParse);
-        $('#parsedCode').val(JSON.stringify(parsedCode, null, 2));
+        let x = document.getElementById('t').rows[1].cells;
+        x[1].innerHTML=bigfunc(parsedCode);
     });
 });
