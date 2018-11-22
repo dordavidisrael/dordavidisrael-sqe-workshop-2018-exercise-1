@@ -10,7 +10,7 @@ describe('The javascript parser', () => {
         );
     });
 
-    it('1is parsing an function correctly', () => {
+    it('2is parsing an function correctly', () => {
         assert.equal(
             bigfunc(parseCode('function b(){\n' +
                 'let x=1;\n' +
@@ -25,7 +25,7 @@ describe('The javascript parser', () => {
         );
     });
 
-    it('1is parsing an function correctly', () => {
+    it('3is parsing an function correctly', () => {
         assert.equal(
             bigfunc(parseCode('function b(x){\n' +
                 'x=1;\n' +
@@ -42,30 +42,26 @@ describe('The javascript parser', () => {
         );
     });
 
-    it('1is parsing an function correctly', () => {
+    it('4is parsing an function correctly', () => {
         assert.equal(
-            bigfunc(parseCode('function b(r){\n' +
-                '\n' +
-                'x=m[c+1];\n' +
-                'for(i=0;i<8;i++){}\n' +
-                'for(i=0;i<8;i++)\n' +
-                'x=-1;\n' +
+            bigfunc(parseCode('function b(){\n' +
+                'for(i=0;i<a;i++){}\n' +
+                'for(i=0;i<m[v];i++){}\n' +
+                'for(i=0;i<a;i++)\n' +
+                'x=a;\n' +
                 '\n' +
                 'while(x>a){}\n' +
                 'while(x>1)\n' +
-                'x=8;\n' +
-                '\n' +
+                'x=2;\n' +
                 'return 1;\n' +
                 'return a;\n' +
-                'return a+b;\n' +
-                'return m[c];\n' +
-                '\n' +
+                'return -1;\n' +
                 '}')),
-            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 1 </td><td>VariableDeclarator</td><td>r</td><td>       </td><td> </td></tr><tr><td> 3 </td><td>AssignmentExpression</td><td>x</td><td>       </td><td>m[c+1]</td></tr><tr><td> 4 </td><td>ForStatement</td><td> </td><td>   i < 8   </td><td> </td></tr><tr><td> 5 </td><td>ForStatement</td><td> </td><td>   i < 8   </td><td> </td></tr><tr><td> 6 </td><td>AssignmentExpression</td><td>x</td><td>       </td><td>-1</td></tr><tr><td> 8 </td><td>WhileStatement</td><td> </td><td>   x>a   </td><td> </td></tr><tr><td> 9 </td><td>WhileStatement</td><td> </td><td>   x>1   </td><td> </td></tr><tr><td> 10 </td><td>AssignmentExpression</td><td>x</td><td>       </td><td>8</td></tr><tr><td> 12 </td><td>ReturnStatement</td><td> </td><td>       </td><td>1</td></tr><tr><td> 13 </td><td>ReturnStatement</td><td> </td><td>       </td><td>a</td></tr><tr><td> 14 </td><td>ReturnStatement</td><td> </td><td>       </td><td>a+b</td></tr><tr><td> 15 </td><td>ReturnStatement</td><td> </td><td>       </td><td>m[c]</td></tr></table>'
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>ForStatement</td><td> </td><td>   i=0; i < a; i++   </td><td> </td></tr><tr><td> 3 </td><td>ForStatement</td><td> </td><td>   i=0; i < m[v]; i++   </td><td> </td></tr><tr><td> 4 </td><td>ForStatement</td><td> </td><td>   i=0; i < a; i++   </td><td> </td></tr><tr><td> 5 </td><td>AssignmentExpression</td><td>x</td><td>       </td><td>a</td></tr><tr><td> 7 </td><td>WhileStatement</td><td> </td><td>   x>a   </td><td> </td></tr><tr><td> 8 </td><td>WhileStatement</td><td> </td><td>   x>1   </td><td> </td></tr><tr><td> 9 </td><td>AssignmentExpression</td><td>x</td><td>       </td><td>2</td></tr><tr><td> 10 </td><td>ReturnStatement</td><td> </td><td>       </td><td>1</td></tr><tr><td> 11 </td><td>ReturnStatement</td><td> </td><td>       </td><td>a</td></tr><tr><td> 12 </td><td>ReturnStatement</td><td> </td><td>       </td><td>-1</td></tr></table>'
         );
     });
 
-    it('1is parsing an function correctly', () => {
+    it('5is parsing an function correctly', () => {
         assert.equal(
             bigfunc(parseCode('function b(r){\n' +
                 'let x;\n' +
@@ -77,7 +73,7 @@ describe('The javascript parser', () => {
     });
 
 
-    it('1is parsing an function correctly', () => {
+    it('6is parsing an function correctly', () => {
         assert.equal(
             bigfunc(parseCode('function b(r){\n' +
                 'if(x>1){x=2;}\n' +
@@ -88,7 +84,7 @@ describe('The javascript parser', () => {
         );
     });
 
-    it('1is parsing an function correctly', () => {
+    it('7is parsing an function correctly', () => {
         assert.equal(
             bigfunc(parseCode('function b(r){\n' +
                 'if(x>1)\n' +
@@ -107,7 +103,7 @@ describe('The javascript parser', () => {
         );
     });
 
-    it('1is parsing an function correctly', () => {
+    it('8is parsing an function correctly', () => {
         assert.equal(
             bigfunc(parseCode('function b(){\n' +
                 '\n' +
@@ -125,5 +121,59 @@ describe('The javascript parser', () => {
         );
     });
 
+    it('9is parsing an function correctly', () => {
+        assert.equal(
+            bigfunc(parseCode('function b(x=2){\n' +
+                'let x=1;\n' +
+                '}')),
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>VariableDeclarator</td><td>x</td><td>       </td><td>1</td></tr></table>'
+        );
+    });
 
+    it('10is parsing an function correctly', () => {
+        assert.equal(
+            bigfunc(parseCode('function b(){\n' +
+                'm[x]=-8;\n' +
+                'm[x]=m[i];\n' +
+                '}')),
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>AssignmentExpression</td><td>m[x]</td><td>       </td><td>-8</td></tr><tr><td> 3 </td><td>AssignmentExpression</td><td>m[x]</td><td>       </td><td>m[i]</td></tr></table>'
+        );
+    });
+
+    it('11 is parsing an function correctly', () => {
+        assert.equal(
+            bigfunc(parseCode('function b(){\n' +
+                'let x=i++;\n' +
+                'm[j]=x++;\n' +
+                '}')),
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>VariableDeclarator</td><td>x</td><td>       </td><td>i++</td></tr><tr><td> 3 </td><td>AssignmentExpression</td><td>m[j]</td><td>       </td><td>x++</td></tr></table>'
+        );
+    });
+
+
+    it('12 is parsing an function correctly', () => {
+        assert.equal(
+            bigfunc(parseCode('function b(){\n' +
+                '\n' +
+                'x++;;\n' +
+                'x=m[i]++;\n' +
+                'x=a++;\n' +
+                '\n' +
+                '}')),
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 3 </td><td>UpdateExpression</td><td>x</td><td>       </td><td>x++</td></tr><tr><td> 4 </td><td>AssignmentExpression</td><td>x</td><td>       </td><td>m[i]++</td></tr><tr><td> 5 </td><td>AssignmentExpression</td><td>x</td><td>       </td><td>a++</td></tr></table>'
+        );
+    });
+
+    it('13 is parsing an function correctly', () => {
+        assert.equal(
+            bigfunc(parseCode('function b(){\n' +
+                'return m[x];\n' +
+                'return (a+b);\n' +
+                'return -2;\n' +
+                '\n' +
+                'for(;i<8;){}\n' +
+                '}')),
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>ReturnStatement</td><td> </td><td>       </td><td>m[x]</td></tr><tr><td> 3 </td><td>ReturnStatement</td><td> </td><td>       </td><td>a+b</td></tr><tr><td> 4 </td><td>ReturnStatement</td><td> </td><td>       </td><td>-2</td></tr><tr><td> 6 </td><td>ForStatement</td><td> </td><td>   ; i < 8;    </td><td> </td></tr></table>'
+        );
+    });
 });

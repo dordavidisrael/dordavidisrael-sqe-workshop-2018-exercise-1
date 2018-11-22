@@ -22,7 +22,8 @@ const bigfunc = (parsedCode)=>{
 
 /*take care of Expresion statement*/
 const StateExpression=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
-    if(entry.expression.right.type==='Literal'){Literal1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
+    if(entry.expression.type==='UpdateExpression'){UpdatExp(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
+    else if(entry.expression.right.type==='Literal'){Literal1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     else if(entry.expression.right.type==='Identifier'){identifier1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     else if(entry.expression.right.type==='MemberExpression'){MemberExp1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     else{StateExpression1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
@@ -30,8 +31,25 @@ const StateExpression=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
 const StateExpression1=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     if(entry.expression.right.type==='BinaryExpression'){Bin(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     if(entry.expression.right.type==='UnaryExpression'){unaryExp1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
+    if(entry.expression.right.type==='UpdateExpression'){UpdatExp1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
 };
 
+const UpdatExp=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
+    arrtype.push(entry.expression.type);
+    let n=getName(entry.expression.argument);
+    arrName.push(n);
+    arrLine.push(entry.expression.loc.start.line);
+    arrCondition.push(' ');
+    arrValue.push(upd(entry,n));
+};
+const UpdatExp1=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
+    arrtype.push(entry.expression.type);
+    let n=getName(entry.expression.left);
+    arrName.push(n);
+    arrLine.push(entry.expression.loc.start.line);
+    arrCondition.push(' ');
+    arrValue.push(upd1(entry));
+};
 const Literal1=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     arrtype.push(entry.expression.type);
     arrName.push(getName(entry.expression.left));
@@ -47,11 +65,13 @@ const identifier1=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     arrValue.push(TakeCareIden(entry.expression.right));
 };
 const MemberExp1 =(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
+    let s='';
+    s=TakeCareMemberC(entry.expression.right);
     arrtype.push(entry.expression.type);
     arrName.push(getName(entry.expression.left));
     arrLine.push(entry.expression.loc.start.line);
     arrCondition.push(' ');
-    arrValue.push(TakeCareMemberC(entry.expression.right));
+    arrValue.push(s);
 };
 const unaryExp1=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     arrtype.push(entry.expression.type);
@@ -66,6 +86,13 @@ const Bin=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     arrLine.push(entry.expression.loc.start.line);
     arrCondition.push(' ');
     arrValue.push(kobeBraynt(entry));
+};
+const upd=(entry,n)=>{
+    return n+entry.expression.operator;
+};
+const upd1=(entry)=>{
+    let s=BigTakeCare1(entry.expression.right.argument);
+    return s+entry.expression.right.operator;
 };
 
 const TakeCareLiteral=(entry)=>{return entry.value;};
@@ -90,6 +117,10 @@ const BigTakeCare=(x)=>{
     if(x.type==='Literal'){return TakeCareLiteral(x);}
     if(x.type==='BinaryExpression'){return kobeBraynt(x);}
 };
+const BigTakeCare1=(x)=>{
+    if(x.type==='Identifier'){return TakeCareIden(x);}
+    if(x.type==='MemberExpression'){return TakeCareMemberC(x);}
+};
 
 
 
@@ -105,6 +136,16 @@ const StateVariableDeclaration=(entry,arrtype,arrName,arrLine,arrCondition,arrVa
 const StateVariableDeclaration1=(element,entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     if((element.init.type === 'BinaryExpression')) {vdBin(element, arrtype, arrName, arrLine, arrCondition, arrValue);}
     if(element.init.type==='UnaryExpression'){vdunaryExp1(element,arrtype,arrName,arrLine,arrCondition,arrValue);}
+    if(element.init.type==='UpdateExpression'){UpdatExp11(element,arrtype,arrName,arrLine,arrCondition,arrValue);}
+
+};
+const UpdatExp11=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
+    arrtype.push(entry.type);
+    let n=getName(entry.id);
+    arrName.push(n);
+    arrLine.push(entry.loc.start.line);
+    arrCondition.push(' ');
+    arrValue.push(upd11(entry));
 };
 
 const justlet=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
@@ -142,7 +183,10 @@ const vdBin=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     arrCondition.push(' ');
     arrValue.push(kobeBraynt(entry));
 };
-
+const upd11=(entry)=>{
+    let s=BigTakeCare1(entry.init.argument);
+    return s+entry.init.operator;
+};
 
 //****************************************************************************************\\
 /*take care of IF statement*/
@@ -154,7 +198,7 @@ const StateIf=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
 };
 
 const firstif=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
-    let s=check(entry.test);
+    let s=kobeBraynt(entry.test);
     arrtype.push(entry.type);
     arrName.push(' ');
     arrLine.push(entry.test.left.loc.start.line);
@@ -200,7 +244,7 @@ const justElse=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     }
 };
 const justEllseif=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
-    let s=check(entry.test);
+    let s=kobeBraynt(entry.test);
     arrtype.push('Else if Statement');
     arrName.push(' ');
     arrLine.push(entry.loc.start.line);
@@ -220,9 +264,6 @@ const justEllseif=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
 
 //****************************************************************************************\\
 
-const check=(x)=>{
-    if(x.type==='BinaryExpression'){return kobeBraynt(x);}
-};
 
 //****************************************************************************************\\
 /*take care about while and for*/
@@ -251,6 +292,7 @@ const Statewhile1=(entry)=> {
 /*take care about while and for*/
 const Statefor=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
     let s=Statewhile1(entry);
+    s=stateforHelp(entry);
     arrtype.push(entry.type);
     arrName.push(' ');
     arrLine.push(entry.loc.start.line);
@@ -264,6 +306,17 @@ const Statefor=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
         ParseThebody(a, arrtype, arrName, arrLine, arrCondition, arrValue);
     }
 };
+const stateforHelp=(entry)=>{
+    let s=Statewhile1(entry)+';';
+    let a='';
+    if(entry.init){a=q[entry.init.loc.start.line-1].substring(entry.init.loc.start.column,entry.init.loc.end.column);}
+    a=a+';';
+    let c='';
+    if(entry.update){c=q[entry.update.loc.start.line-1].substring(entry.update.loc.start.column,entry.update.loc.end.column);}
+    return a+' '+s+' '+c;
+};
+
+
 //****************************************************************************************\\
 
 //****************************************************************************************\\
