@@ -1,5 +1,6 @@
 import * as esprima from 'esprima';
 let q='';
+let zzzfff=0;
 
 const bigfunc = (parsedCode)=>{
     q=q.split('\n');
@@ -20,15 +21,18 @@ const bigfunc = (parsedCode)=>{
     else {return y; }
 };
 
+const updata = ()=>{zzzfff=zzzfff+1;};
+
 /*take care of Expresion statement*/
 const StateExpression=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
-    if(entry.expression.type==='UpdateExpression'){UpdatExp(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
+    if(entry.expression.type==='CallExpression'){updata();}
+    else if(entry.expression.type==='UpdateExpression'){UpdatExp(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     else if(entry.expression.right.type==='Literal'){Literal1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     else if(entry.expression.right.type==='Identifier'){identifier1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
-    else if(entry.expression.right.type==='MemberExpression'){MemberExp1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     else{StateExpression1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
 };
 const StateExpression1=(entry,arrtype,arrName,arrLine,arrCondition,arrValue)=>{
+    if(entry.expression.right.type==='MemberExpression'){MemberExp1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     if(entry.expression.right.type==='BinaryExpression'){Bin(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     if(entry.expression.right.type==='UnaryExpression'){unaryExp1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}
     if(entry.expression.right.type==='UpdateExpression'){UpdatExp1(entry,arrtype,arrName,arrLine,arrCondition,arrValue);}

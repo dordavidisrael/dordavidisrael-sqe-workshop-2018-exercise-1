@@ -176,4 +176,17 @@ describe('The javascript parser', () => {
             '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>ReturnStatement</td><td> </td><td>       </td><td>m[x]</td></tr><tr><td> 3 </td><td>ReturnStatement</td><td> </td><td>       </td><td>a+b</td></tr><tr><td> 4 </td><td>ReturnStatement</td><td> </td><td>       </td><td>-2</td></tr><tr><td> 6 </td><td>ForStatement</td><td> </td><td>   ; i < 8;    </td><td> </td></tr></table>'
         );
     });
+
+    it('5is parsing an function correctly', () => {
+        assert.equal(
+            bigfunc(parseCode('function b(){\n' +
+                'let a = 1;\n' +
+                'a.forEach(function(entry) {\n' +
+                '    console.log(entry);\n' +
+                '});\n' +
+                '\n' +
+                '}')),
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>VariableDeclarator</td><td>a</td><td>       </td><td>1</td></tr></table>'
+        );
+    });
 });
