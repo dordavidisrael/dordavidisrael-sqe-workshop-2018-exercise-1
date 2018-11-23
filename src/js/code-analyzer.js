@@ -2,6 +2,8 @@ import * as esprima from 'esprima';
 let q='';
 let zzzfff=0;
 
+/* start*/
+
 const bigfunc = (parsedCode)=>{
     q=q.split('\n');
     let arrLine=[],arrtype=[],arrName=[],arrCondition=[], arrValue=[];
