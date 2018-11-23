@@ -177,7 +177,7 @@ describe('The javascript parser', () => {
         );
     });
 
-    it('5is parsing an function correctly', () => {
+    it('14 is parsing an function correctly', () => {
         assert.equal(
             bigfunc(parseCode('function b(){\n' +
                 'let a = 1;\n' +
@@ -189,4 +189,13 @@ describe('The javascript parser', () => {
             '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>function declaration</td><td>b</td><td>       </td><td> </td></tr><tr><td> 2 </td><td>VariableDeclarator</td><td>a</td><td>       </td><td>1</td></tr></table>'
         );
     });
+
+    it('14 is parsing an function correctly', () => {
+        assert.equal(
+            bigfunc(parseCode('let x=1;')),
+            '<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr><tr><td> 1 </td><td>VariableDeclarator</td><td>x</td><td>       </td><td>1</td></tr></table>'
+        );
+    });
+
+
 });

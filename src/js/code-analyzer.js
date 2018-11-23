@@ -6,19 +6,19 @@ const bigfunc = (parsedCode)=>{
     q=q.split('\n');
     let arrLine=[],arrtype=[],arrName=[],arrCondition=[], arrValue=[];
     let z=parsedCode.body;
-    let y='<table border="1"><tr><td> Line </td><td> Type </td><td>Name</td><td>Condition</td><td>Value</td></tr></table>';
+    let str = '';
     if((!(z.length===0))&&z[0].type === 'FunctionDeclaration') {
         let body1 = z[0].body.body;
-        let str = '';
         funcdecl(z, arrtype, arrName, arrLine, arrCondition, arrValue);
-
         let params = z[0].params;
         TakeCareParams(params, arrtype, arrName, arrLine, arrCondition, arrValue);
         ParseThebody(body1, arrtype, arrName, arrLine, arrCondition, arrValue);
         let x = makeAtable(str, arrLine, arrtype, arrName, arrCondition, arrValue);
-        return x;
+        return x;}
+    else {
+        ParseThebody(z, arrtype, arrName, arrLine, arrCondition, arrValue);
+        return  makeAtable(str, arrLine, arrtype, arrName, arrCondition, arrValue);
     }
-    else {return y; }
 };
 
 const updata = ()=>{zzzfff=zzzfff+1;};
